@@ -1,6 +1,6 @@
 import type { CurrentWeather, DailyForecastDay, HourlyForecastHour, WeatherData } from "../types/weatherTypes";
 
-const API_KEY = ''; 
+const API_KEY = '818a7ee5dbdf4e039f5225843250607'; 
 const BASE_URL = 'https://api.weatherapi.com/v1';
 
 export const fetchWeatherData = async (city: string): Promise<WeatherData> => {

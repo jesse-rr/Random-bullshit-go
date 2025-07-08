@@ -1,3 +1,5 @@
+'use client'
+
 import { faCloudSunRain, faCog, faMagnifyingGlass, faMoon, faSun, faUser, faWind } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTheme } from "../hooks/themeContext";

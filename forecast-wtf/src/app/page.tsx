@@ -1,3 +1,5 @@
+'use client'
+
 import { AsideComponent } from "./components/AsideComponent";
 import { CurrentWeatherComponent } from "./components/CurrentWeatherComponent";
 import { DailyForecastComponent } from "./components/DailyForecastComponent";
