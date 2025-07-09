@@ -6,10 +6,11 @@ import { useTheme } from "next-themes";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export function TemperatureLineChart({ forecast, loading, error }: { forecast: DailyForecastDay[]; loading: boolean; error: string | null }) {
-    const { theme } = useTheme();
     if (loading) return <div className="text-center text-gray-800 dark:text-gray-200">Carregando...</div>;
     if (error) return <div className="text-center text-red-500">Error: {error}</div>;
     if (!forecast?.length) return <div className="text-center text-gray-800 dark:text-gray-200">Sem dados de temperatura...</div>;
+    
+    const { theme } = useTheme();
     const textColor = theme === 'dark' ? '#f3f4f6' : '#1f2937';
     const gridColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
     const borderColor = theme === 'dark' ? 'rgb(108, 223, 177)' : 'rgb(39, 67, 76)';
@@ -27,6 +28,7 @@ export function TemperatureLineChart({ forecast, loading, error }: { forecast: D
             pointHoverRadius: 8
         }],
     };
+    
     return (
         <div className="w-full p-0">
             <Line 

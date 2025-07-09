@@ -1,3 +1,5 @@
+'use client'
+
 import type { DailyForecastDay } from "../types/weatherTypes";
 
 interface DailyForecastProps {
@@ -7,12 +9,12 @@ interface DailyForecastProps {
 }
 
 export function DailyForecastComponent({ forecast, loading, error }: DailyForecastProps) {
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-    if (loading) return <div className="text-center text-gray-800 dark:text-gray-200">Loading...</div>;
-    if (error) return <div className="text-center text-red-500">Error: {error}</div>;
-    if (!forecast?.length) return <div className="text-center text-gray-800 dark:text-gray-200">No forecast available.</div>;
-
+    if (loading) return <div className="text-center text-gray-800 dark:text-gray-200">Carregando...</div>;
+    if (error) return <div className="text-center text-red-500">Erro: {error}</div>;
+    if (!forecast?.length) return <div className="text-center text-gray-800 dark:text-gray-200">Previsão indisponível.</div>;
+    
+    const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    
     return (
         <div className="w-full">
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4 text-center">
@@ -22,10 +24,10 @@ export function DailyForecastComponent({ forecast, loading, error }: DailyForeca
                 <thead>
                     <tr>
                         <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                            Day
+                            Dia
                         </th>
                         <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                            Condition
+                            Condição
                         </th>
                         <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                             Temp
@@ -39,7 +41,7 @@ export function DailyForecastComponent({ forecast, loading, error }: DailyForeca
                         return (
                             <tr key={index} className="hover:bg-gray-100/50 dark:hover:bg-gray-700/50">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 text-center">
-                                    {index === 0 ? 'Today' : dayName}
+                                    {index === 0 ? 'Hoje' : dayName}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 text-center">
                                     <div className="flex items-center justify-center">

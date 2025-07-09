@@ -7,9 +7,9 @@ interface WeatherExtraDetailsProps {
 }
 
 export function WeatherExtraDetailsComponent({ data, loading, error }: WeatherExtraDetailsProps) {
-    if (loading) return <div className="text-center text-gray-800 dark:text-gray-200">Loading extra details...</div>;
-    if (error) return <div className="text-center text-red-500">Error: {error}</div>;
-    if (!data) return <div className="text-center text-gray-800 dark:text-gray-200">No extra details available.</div>;
+    if (loading) return <div className="text-center text-gray-800 dark:text-gray-200">Caregando Detalhes Adicionais...</div>;
+    if (error) return <div className="text-center text-red-500">Erro: {error}</div>;
+    if (!data) return <div className="text-center text-gray-800 dark:text-gray-200">Detalhes Adicionais Nao Encontrados.</div>;
 
     const { current } = data;
     const details = [

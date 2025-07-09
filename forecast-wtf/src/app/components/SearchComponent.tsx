@@ -3,20 +3,17 @@
 import { faLocationDot, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/Button";
 
 interface SearchComponentProps {
     onSearch: (city: string) => void;
     history: string[];
     onSelectHistory: (city: string) => void;
-    currentLocation: string | null;
-    onDetectLocation: () => void;
     loading: boolean;
 }
 
-export function SearchComponent({ onSearch, history, onSelectHistory, currentLocation, onDetectLocation, loading }: SearchComponentProps) {
+export function SearchComponent({ onSearch, history, onSelectHistory, loading }: SearchComponentProps) {
     const [city, setCity] = useState<string>('');
-
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (city.trim()) {
@@ -31,7 +28,7 @@ export function SearchComponent({ onSearch, history, onSelectHistory, currentLoc
                 <input
                     type='text'
                     className='flex-grow px-3 py-2 text-lg outline-none bg-transparent text-gray-700 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400'
-                    placeholder='Search for a city...'
+                    placeholder='Buscar cidade...'
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     disabled={loading}
@@ -49,7 +46,7 @@ export function SearchComponent({ onSearch, history, onSelectHistory, currentLoc
             {history.length > 0 && (
                 <div className="w-full">
                     <h4 className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-3 uppercase tracking-wider">
-                        Recent searches
+                        Buscas recentes
                     </h4>
                     <div className="flex flex-wrap gap-2">
                         {history.map((histCity, index) => (

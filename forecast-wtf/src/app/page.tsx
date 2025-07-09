@@ -7,13 +7,15 @@ import { SearchComponent } from "./components/SearchComponent";
 import { TemperatureLineChart } from "./components/TemperatureLineChart";
 import { WeatherExtraDetailsComponent } from "./components/WeatherExtraDetailsComponent";
 import { useWeather } from "./hooks/weatherHook";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/Button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { ForecastImageChanger } from "./utils/forecastImageChanger";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { PrintForecast } from "./utils/printForecast";
+import { CurrentWeather } from "./types/weatherTypes";
 
 export default function Home() {
   const { weatherData, loading, error, searchCity, history, selectCityFromHistory, currentLocation, detectLocation } = useWeather();
@@ -59,10 +61,6 @@ export default function Home() {
     }
   }, [weatherData]);
 
-  function printLocation(): void {
-    throw new Error("Function not implemented.");
-  }
-
   return (
     <div className="relative min-h-screen w-full overflow-hidden h-screen">
       <div 
@@ -86,50 +84,35 @@ export default function Home() {
         }}
       />
       <div className="relative z-10 flex flex-col md:flex-row h-full">
-        <div className="pt-6 pl-6 z-50 flex flex-col gap-3 md:absolute">
-          <Button
-            id="btn-mode"
-            variant="outline"
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-700 dark:text-gray-200 h-9 px-4 shadow-sm hover:bg-white dark:hover:bg-gray-700 shadow-xl shadow-black/30"
-            onClick={handMode}
-          >
-            {selectedMode === "dark" ? (
-              <>
-                <Sun className="h-3.5 w-3.5" />
-                <span className="ml-2">Light Mode</span>
-              </>
-            ) : (
-              <>
-                <Moon className="h-3.5 w-3.5" />
-                <span className="ml-2">Dark Mode</span>
-              </>
-            )}
-          </Button>
-          <Button
-            onClick={printLocation}
-            variant="outline"
-            size="sm"
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-700 dark:text-gray-200 h-9 px-4 shadow-sm hover:bg-white dark:hover:bg-gray-700 shadow-xl shadow-black/30"
-            disabled={loading}
-          >
-            <FontAwesomeIcon icon={faPrint} className="h-3.5 w-3.5" />
-            <span className="ml-2">Imprimir</span>
-          </Button>
-          <Button
-            onClick={detectLocation}
-            variant="outline"
-            size="sm"
-            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-700 dark:text-gray-200 h-9 px-4 shadow-sm hover:bg-white dark:hover:bg-gray-700 shadow-xl shadow-black/30"
-            disabled={loading}
-          >
-            <FontAwesomeIcon icon={faLocationDot} className="h-3.5 w-3.5" />
-            <span className="ml-2">
-              {loading && !currentLocation ? 'Detecting...' : currentLocation ? currentLocation : 'My Location'}
-            </span>
-          </Button>
-        </div>
-        <div className="flex-1 flex flex-col pt-6 px-8 overflow-y-auto md:ml-20">
-          <div className="w-full max-w-4xl backdrop-blur-md bg-white/60 dark:bg-gray-800/60 rounded-xl shadow-lg p-6 mx-auto shadow-xl shadow-black/30">
+      <div className="pt-6 pl-6 z-50 flex flex-col gap-3 md:absolute h-full justify-center">
+        <Button
+          id="btn-mode"
+          variant="outline"
+          className="group w-full max-w-[180px] border-none bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-700 dark:text-gray-200 h-9 px-4 shadow-sm hover:bg-white dark:hover:bg-gray-700 shadow-xl shadow-black/30 transition-all duration-200"
+          onClick={handMode}
+        >
+          {selectedMode === "dark" ? ( <Sun className="h-3.5 w-3.5" /> ) : ( <Moon className="h-3.5 w-3.5" /> )}
+        </Button>
+        <Button
+          id="btn-print"
+          onClick={() => PrintForecast(weatherData?.currentWeather as CurrentWeather)}
+          variant="outline"
+          className="group w-full max-w-[180px] border-none bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-700 dark:text-gray-200 h-9 px-4 shadow-sm hover:bg-white dark:hover:bg-gray-700 shadow-xl shadow-black/30 transition-all duration-200"
+        >
+          <FontAwesomeIcon icon={faPrint} className="h-3.5 w-3.5" />
+        </Button>
+        <Button
+          id="btn-location"
+          onClick={detectLocation}
+          variant="outline"
+          className="group w-full max-w-[180px] border-none bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-700 dark:text-gray-200 h-9 px-4 shadow-sm hover:bg-white dark:hover:bg-gray-700 shadow-xl shadow-black/30 transition-all duration-200"
+          disabled={loading}
+        >
+          <FontAwesomeIcon icon={faLocationDot} className="h-3.5 w-3.5" />
+        </Button>
+      </div>
+        <div className="flex-1 flex flex-col pt-6 px-4">
+          <div className="w-auto backdrop-blur-md bg-white/70 dark:bg-gray-800/60 rounded-xl shadow-lg p-2 mx-auto shadow-xl shadow-black/30"> {/* Reduced padding to p-2 (5px) */}
             <HourlyForecastComponent
               forecast={weatherData?.hourlyForecast || []}
               loading={loading}
@@ -145,14 +128,12 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full md:w-[34%] lg:w-[34%] h-full flex flex-col pt-6 relative">
-          <div className="flex-1 overflow-y-auto backdrop-blur-md bg-white/60 dark:bg-gray-800/60 shadow-sm p-8 mb-5 mr-2 rounded-xl shadow-xl shadow-black">
+          <div className="flex-1 overflow-y-auto backdrop-blur-md bg-white/70 dark:bg-gray-800/60 shadow-sm p-8 mb-5 mr-2 rounded-xl shadow-xl shadow-black">
             <div className="space-y-10 flex flex-col gap-4 h-full mb-90">
               <SearchComponent
                 onSearch={searchCity}
                 history={history}
                 onSelectHistory={selectCityFromHistory}
-                currentLocation={currentLocation}
-                onDetectLocation={detectLocation}
                 loading={loading}
               />
               <DailyForecastComponent

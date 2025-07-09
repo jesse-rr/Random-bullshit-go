@@ -1,4 +1,5 @@
 import type { CurrentWeather } from "../types/weatherTypes";
+import { Truncate } from "../utils/truncate";
 
 interface CurrentWeatherProps {
     data: CurrentWeather | null;
@@ -7,17 +8,9 @@ interface CurrentWeatherProps {
 }
 
 export function CurrentWeatherComponent({ data, loading, error }: CurrentWeatherProps) {
-    if (loading) {
-        return <div className="text-center text-gray-600 dark:text-gray-300">Loading current weather...</div>;
-    }
-
-    if (error) {
-        return <div className="text-center text-red-500">Error: {error}</div>;
-    }
-
-    if (!data) {
-        return <div className="text-center text-gray-600 dark:text-gray-300">No weather data available. Search for a city.</div>;
-    }
+    if (loading) return <div className="text-center text-gray-600 dark:text-gray-300">Carregando clima atual...</div>;
+    if (error) return <div className="text-center text-red-500">Erro: {error}</div>;
+    if (!data) return <div className="text-center text-gray-600 dark:text-gray-300">Nenhum dado meteorológico disponível. Busque por uma cidade.</div>;
 
     const { location, current } = data;
     const localTime = new Date(location.localtime);
@@ -31,7 +24,7 @@ export function CurrentWeatherComponent({ data, loading, error }: CurrentWeather
             </div>            
                 <div className="flex flex-col">
                     <div className="text-5xl font-semibold">
-                        {location.name}
+                        {Truncate(location.name, 30)}
                     </div>
                     <div className="text-2x1 opacity-80">
                         {location.country} - {localTime.toLocaleDateString()} • {localTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
