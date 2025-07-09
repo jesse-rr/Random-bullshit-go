@@ -22,7 +22,7 @@ interface TemperatureLineChartProps {
 
 export function TemperatureLineChart({ forecast, loading, error }: TemperatureLineChartProps) {
     if (loading) {
-        return <div className="text-center text-gray-600 dark:text-gray-300">Loading temperature chart...</div>;
+        return <div className="text-center text-gray-600 dark:text-gray-300">Carregando...</div>;
     }
 
     if (error) {
@@ -30,7 +30,7 @@ export function TemperatureLineChart({ forecast, loading, error }: TemperatureLi
     }
 
     if (!forecast || forecast.length === 0) {
-        return <div className="text-center text-gray-600 dark:text-gray-300">No temperature data available.</div>;
+        return <div className="text-center text-gray-600 dark:text-gray-300">Sem dados de temperatura...</div>;
     }
 
     const labels = forecast.map((day) => {
