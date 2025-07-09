@@ -32,7 +32,9 @@ export default function Home() {
     }
   };
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <div 
+    style={{backgroundImage: "url('/desktop/rain.jpg')", backgroundSize: 'cover'}}
+    className="min-h-screen flex bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
         <Button
             id="btn-mode"
             className="text-veryDarkBlueText bg-transparent hover:bg-transparent text-detail
