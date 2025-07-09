@@ -1,4 +1,5 @@
 import type { CurrentWeather } from "../types/weatherTypes";
+import { ForecastImageChanger } from "../utils/forecastImageChanger";
 
 interface CurrentWeatherProps {
     data: CurrentWeather | null;
@@ -20,6 +21,7 @@ export function CurrentWeatherComponent({ data, loading, error }: CurrentWeather
     }
 
     const { location, current } = data;
+    ForecastImageChanger(current.condition);
 
     return (
         <div className="flex justify-between items-center p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg w-3/4 h-1-4">
