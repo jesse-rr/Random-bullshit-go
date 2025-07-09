@@ -6,10 +6,11 @@ import { HourlyForecastComponent } from "./components/HourlyForecastComponent";
 import { SearchComponent } from "./components/SearchComponent";
 import { TemperatureLineChart } from "./components/TemperatureLineChart";
 import { WeatherExtraDetailsComponent } from "./components/WeatherExtraDetailsComponent";
+import { DraggableContainer } from "./components/DraggableContainer";
 import { useWeather } from "./hooks/weatherHook";
 
 import { Button } from "@/components/ui/button";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Move, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { ForecastImageChanger } from "./utils/forecastImageChanger";
@@ -17,6 +18,7 @@ import { ForecastImageChanger } from "./utils/forecastImageChanger";
 export default function Home() {
   const { weatherData, loading, error, searchCity, history, selectCityFromHistory, currentLocation, detectLocation } = useWeather();
   const [selectedMode, setSelectedMode] = useState("dark");
+  const [showFloatingPanel, setShowFloatingPanel] = useState(false);
   const [imgUrl, setImgUrl] = useState('/desktop/default.jpg');
   const { theme, setTheme } = useTheme();
 
@@ -41,6 +43,19 @@ export default function Home() {
       setImgUrl(`${newImgUrl}`);
     }
   }, [weatherData]);
+
+  const toggleFloatingPanel = () => {
+    setShowFloatingPanel(!showFloatingPanel);
+  };
+
+  // Calculate initial position for floating panel
+  const getInitialPosition = () => {
+    if (typeof window === 'undefined') return { x: 100, y: 100 };
+    return {
+      x: Math.max(50, window.innerWidth - 450),
+      y: 100
+    };
+  };
 
   return (
     <div 
@@ -94,7 +109,7 @@ export default function Home() {
               error={error}
           />
       </div>
-      <div className="flex flex-col items-center justify-start flex-shrink-0 p-6 w-full md:w-1/3 lg:w-1/4">
+      <div className="flex flex-col items-center justify-start flex-shrink-0 p-6 w-full md:w-1/3 lg:w-1/4" id="dragme">
           <DailyForecastComponent
               forecast={weatherData?.dailyForecast || []}
               loading={loading}
