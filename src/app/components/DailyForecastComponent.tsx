@@ -1,5 +1,6 @@
 @@ .. @@
      return (
+     )
 -        <div className="h-auto p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg w-full max-w-md mx-auto ml-80 md:ml-0 md:mt-8">
 +        <div className="h-auto p-6 bg-white/90 dark:bg-gray-700/90 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 w-full max-w-md mx-auto ml-80 md:ml-0 md:mt-8 border border-gray-200 dark:border-gray-600">
              <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 text-center">Previsão próximos 5 dias</h3>
