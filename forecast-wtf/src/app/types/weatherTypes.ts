@@ -119,8 +119,7 @@ export interface HourlyForecastHour {
     vis_km: number;
     vis_miles: number;
     gust_mph: number;
-    gust_kph:
-    number;
+    gust_kph: number;
     uv: number;
 }
 

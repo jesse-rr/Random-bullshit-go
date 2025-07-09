@@ -22,12 +22,12 @@ export function WeatherExtraDetailsComponent({ data, loading, error }: WeatherEx
     }
 
     const { current } = data;
-
+    debugger;
     const details = [
-        { label: 'Real Feel', value: `${current.feelslike_c}°C`, icon: faTemperatureHalf },
-        { label: 'Humidity', value: `${current.humidity}%`, icon: faTint },
-        { label: 'Wind', value: `${current.wind_kph} km/h`, icon: faWind },
-        { label: 'UV Index', value: `${current.uv}`, icon: faSun },
+        { label: 'Sensação térmica', value: `${current.feelslike_c}°C`, icon: faTemperatureHalf },
+        { label: 'Humidade', value: `${current.humidity}%`, icon: faTint },
+        { label: 'Velocidade dos ventos', value: `${current.wind_kph} km/h`, icon: faWind },
+        { label: 'Indice de UV', value: `${current.uv}`, icon: faSun },
     ];
 
     return (
