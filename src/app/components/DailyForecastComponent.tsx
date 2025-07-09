@@ -22,9 +22,9 @@ export function DailyForecastComponent({ forecast, loading, error }: DailyForeca
     }
 
     return (
-        <div className="h-auto p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg w-full max-w-md mx-auto ml-80 md:ml-0 md:mt-8">
+        <div className="h-auto p-4 bg-transparent rounded-xl w-full">
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 text-center">Previsão próximos 5 dias</h3>
-            <table className="h-48 min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+            <table className="h-48 w-full divide-y divide-gray-200 dark:divide-gray-600">
                 <thead className="bg-gray-50 dark:bg-gray-600">
                     <tr>
                         <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider rounded-tl-lg">Day</th>
