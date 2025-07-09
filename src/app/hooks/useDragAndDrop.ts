@@ -14,23 +14,21 @@ interface UseDragAndDropResult {
   handleMouseDown: (e: React.MouseEvent) => void;
 }
 
-export const useDragAndDrop = (initialPosition?: Position): UseDragAndDropResult => {
+export const useDragAndDrop = (initialPosition: Position = { x: 100, y: 100 }): UseDragAndDropResult => {
   const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState<Position>(initialPosition || { x: 0, y: 0 });
+  const [position, setPosition] = useState<Position>(initialPosition);
   const [dragStart, setDragStart] = useState<Position>({ x: 0, y: 0 });
   const [initialPos, setInitialPos] = useState<Position>({ x: 0, y: 0 });
   
   const dragRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (!dragRef.current) return;
+    e.preventDefault();
+    e.stopPropagation();
     
     setIsDragging(true);
     setDragStart({ x: e.clientX, y: e.clientY });
     setInitialPos(position);
-    
-    // Prevent text selection while dragging
-    e.preventDefault();
   }, [position]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -43,8 +41,8 @@ export const useDragAndDrop = (initialPosition?: Position): UseDragAndDropResult
     const newY = initialPos.y + deltaY;
     
     // Constrain to viewport bounds
-    const maxX = window.innerWidth - 320; // Assuming 320px width
-    const maxY = window.innerHeight - 200; // Minimum height constraint
+    const maxX = Math.max(0, window.innerWidth - 400);
+    const maxY = Math.max(0, window.innerHeight - 300);
     
     setPosition({
       x: Math.max(0, Math.min(newX, maxX)),
@@ -60,20 +58,17 @@ export const useDragAndDrop = (initialPosition?: Position): UseDragAndDropResult
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
-      document.body.style.cursor = 'grabbing';
+      
+      // Prevent text selection
       document.body.style.userSelect = 'none';
-    } else {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
+      document.body.style.cursor = 'grabbing';
     }
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
-      document.body.style.cursor = '';
       document.body.style.userSelect = '';
+      document.body.style.cursor = '';
     };
   }, [isDragging, handleMouseMove, handleMouseUp]);
 

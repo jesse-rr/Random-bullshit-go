@@ -48,6 +48,15 @@ export default function Home() {
     setShowFloatingPanel(!showFloatingPanel);
   };
 
+  // Calculate initial position for floating panel
+  const getInitialPosition = () => {
+    if (typeof window === 'undefined') return { x: 100, y: 100 };
+    return {
+      x: Math.max(50, window.innerWidth - 450),
+      y: 100
+    };
+  };
+
   return (
     <>
       <div 
@@ -148,10 +157,7 @@ export default function Home() {
       {/* Floating Draggable Panel */}
       {showFloatingPanel && (
         <DraggableContainer 
-          initialPosition={{ 
-            x: typeof window !== 'undefined' ? Math.max(50, window.innerWidth - 450) : 50, 
-            y: 100 
-          }}
+          initialPosition={getInitialPosition()}
           title="Previsão do Tempo"
           className="w-96"
         >
