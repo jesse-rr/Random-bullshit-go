@@ -1,19 +1,18 @@
+
+'use client'
+
+import { ReactNode } from "react";
+import './globals.css'
+import { Providers } from "./providers";
+
 const Layout = ({ children }: { children: ReactNode }) => {
-   return (
-     <html lang="pt-BR" suppressHydrationWarning>
-      <body 
-        style={{ 
-          backgroundImage: `url('/image.webp')`,
-          backgroundAttachment: 'fixed'
-        }} 
-        className="bg-cover bg-center min-h-screen"
-      >
-        <ThemeProvider>
-          <div className="min-h-screen bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-            {children}
-          </div>
-        </ThemeProvider>
+  return (
+    <html lang="pt-BR" className="light" suppressHydrationWarning>
+      <body>
+        <Providers>{children}</Providers>
       </body>
     </html>
-   )
-}
+  );
+};
+
+export default Layout;
