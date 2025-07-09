@@ -20,17 +20,31 @@ export function CurrentWeatherComponent({ data, loading, error }: CurrentWeather
     }
 
     const { location, current } = data;
+    const localTime = new Date(location.localtime);
 
     return (
-        <div className="flex justify-between items-center p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg w-3/4 h-1-4">
-            <div className="flex flex-col items-center flex-grow">
-                <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-2">{location.name}, {location.country}</h1>
-                <span className="text-6xl font-extrabold text-blue-600 dark:text-blue-400">{current.temp_c}°C</span>
-            </div>
-
-            <div className="flex flex-col items-center flex-grow">
-                <img src={current.condition.icon} alt={current.condition.text} className="w-24 h-24 mb-2" />
-                <div className="text-2xl text-gray-700 dark:text-gray-200 capitalize">{current.condition.text}</div>
+        <div className="absolute bottom-8 left-8 text-white dark:text-white drop-shadow-lg">
+            <div className="flex items-end gap-4">
+            <div className="flex items-start">
+                <span className="text-8xl font-bold leading-none">{current.temp_c}</span>
+                <span className="text-4xl self-start mt-1">°C</span>
+            </div>            
+                <div className="flex flex-col">
+                    <div className="text-5xl font-semibold">
+                        {location.name}
+                    </div>
+                    <div className="text-2x1 opacity-80">
+                        {location.country} - {localTime.toLocaleDateString()} • {localTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </div>
+                </div>
+                <div className="flex flex-col items-center">
+                    <img 
+                        src={current.condition.icon} 
+                        alt={current.condition.text} 
+                        className="w-18 h-18"
+                    />
+                    <div className="text-sm capitalize">{current.condition.text}</div>
+                </div>
             </div>
         </div>
     );

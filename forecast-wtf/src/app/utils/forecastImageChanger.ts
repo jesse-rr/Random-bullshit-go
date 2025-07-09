@@ -36,7 +36,7 @@ const weatherImageMap = [
     // Fog/Mist
     {
         codes: [1030, 1135, 1147],
-        image: "/desktop/fog.jpg"
+        image: "/desktop/fog.jpeg"
     },
     // Sleet/Freezing Rain
     {
