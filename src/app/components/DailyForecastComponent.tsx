@@ -22,37 +22,45 @@ export function DailyForecastComponent({ forecast, loading, error }: DailyForeca
     }
 
     return (
-        <div className="h-auto p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg w-full max-w-md mx-auto ml-80 md:ml-0 md:mt-8">
-            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 text-center">Previsão próximos 5 dias</h3>
-            <table className="h-48 min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-                <thead className="bg-gray-50 dark:bg-gray-600">
+        <div className="p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg w-full max-w-4xl mx-auto mt-8 overflow-x-auto">
+            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 text-center">
+                Previsão próximos 5 dias
+            </h3>
+            <table className="w-[80%] mx-auto table-auto divide-y divide-gray-200 dark:divide-gray-600 text-center">
+                <thead>
                     <tr>
-                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider rounded-tl-lg">Day</th>
-                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Condition</th>
-                        <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider rounded-tr-lg">Temp</th>
+                        {forecast.map((day, index) => {
+                            const date = new Date(day.date);
+                            const dayName = daysOfWeek[date.getDay()];
+                            return (
+                                <th
+                                    key={index}
+                                    className="px-4 py-2 text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider"
+                                >
+                                    {index === 0 ? 'Today' : dayName}
+                                </th>
+                            );
+                        })}
                     </tr>
                 </thead>
-                <tbody className="h-full bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-600">
-                    {forecast.map((day, index) => {
-                        const date = new Date(day.date);
-                        const dayName = daysOfWeek[date.getDay()];
-                        return (
-                            <tr key={index} className="h-20 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-150">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white align-middle text-center">
-                                    {index === 0 ? 'Today' : dayName}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 align-middle text-center">
-                                    <div className="flex items-center justify-center h-full">
-                                        <img src={day.day.condition.icon} alt={day.day.condition.text} className="w-8 h-8 mr-2" />
-                                        {day.day.condition.text}
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 align-middle text-center">
-                                    {day.day.avgtemp_c}°C
-                                </td>
-                            </tr>
-                        );
-                    })}
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+                    <tr>
+                        {forecast.map((day, index) => (
+                            <td key={index} className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+                                <div className="flex justify-center items-center">
+                                    <img src={day.day.condition.icon} alt={day.day.condition.text} className="w-8 h-8 mr-1" />
+                                    {day.day.condition.text}
+                                </div>
+                            </td>
+                        ))}
+                    </tr>
+                    <tr>
+                        {forecast.map((day, index) => (
+                            <td key={index} className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+                                {day.day.avgtemp_c}°C
+                            </td>
+                        ))}
+                    </tr>
                 </tbody>
             </table>
         </div>
