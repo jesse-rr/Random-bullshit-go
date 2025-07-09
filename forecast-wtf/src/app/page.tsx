@@ -4,6 +4,7 @@ import { CurrentWeatherComponent } from "./components/CurrentWeatherComponent";
 import { DailyForecastComponent } from "./components/DailyForecastComponent";
 import { HourlyForecastComponent } from "./components/HourlyForecastComponent";
 import { SearchComponent } from "./components/SearchComponent";
+import { TemperatureLineChart } from "./components/TemperatureLineChart";
 import { WeatherExtraDetailsComponent } from "./components/WeatherExtraDetailsComponent";
 import { useWeather } from "./hooks/weatherHook";
 
@@ -82,7 +83,13 @@ export default function Home() {
               loading={loading}
               error={error}
           />
+          <TemperatureLineChart
+              forecast={weatherData?.dailyForecast || []}
+              loading={loading}
+              error={error}
+          />
       </div>
+
     </div>
   );
 }
