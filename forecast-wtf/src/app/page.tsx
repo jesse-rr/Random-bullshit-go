@@ -11,11 +11,13 @@ import { useWeather } from "./hooks/weatherHook";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ForecastImageChanger } from "./utils/forecastImageChanger";
 
 export default function Home() {
   const { weatherData, loading, error, searchCity, history, selectCityFromHistory, currentLocation, detectLocation } = useWeather();
   const [selectedMode, setSelectedMode] = useState("dark");
+  const [imgUrl, setImgUrl] = useState('/desktop/default.jpg');
   const { theme, setTheme } = useTheme();
 
   const handMode = () => {
@@ -32,10 +34,23 @@ export default function Home() {
       setTheme("dark");
     }
   };
+
+  useEffect(() => {
+    if (weatherData?.currentWeather) {
+      const newImgUrl = ForecastImageChanger(weatherData.currentWeather.current.condition.code, weatherData.currentWeather.current.is_day);
+      setImgUrl(`${newImgUrl}`);
+    }
+  }, [weatherData]);
+
   return (
     <div 
-    style={{backgroundImage: "url('/desktop/rain.jpg')", backgroundSize: 'cover'}}
-    className="min-h-screen flex bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+      style={{
+        backgroundImage: `url('${imgUrl}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+      className="min-h-screen flex bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
         <Button
             id="btn-mode"
             className="text-veryDarkBlueText bg-transparent hover:bg-transparent text-detail
