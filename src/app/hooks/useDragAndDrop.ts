@@ -39,9 +39,16 @@ export const useDragAndDrop = (initialPosition?: Position): UseDragAndDropResult
     const deltaX = e.clientX - dragStart.x;
     const deltaY = e.clientY - dragStart.y;
     
+    const newX = initialPos.x + deltaX;
+    const newY = initialPos.y + deltaY;
+    
+    // Constrain to viewport bounds
+    const maxX = window.innerWidth - 320; // Assuming 320px width
+    const maxY = window.innerHeight - 200; // Minimum height constraint
+    
     setPosition({
-      x: initialPos.x + deltaX,
-      y: initialPos.y + deltaY
+      x: Math.max(0, Math.min(newX, maxX)),
+      y: Math.max(0, Math.min(newY, maxY))
     });
   }, [isDragging, dragStart, initialPos]);
 

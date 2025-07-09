@@ -68,7 +68,7 @@ export function TemperatureLineChart({ forecast, loading, error }: TemperatureLi
     };
 
     return (
-        <div className="p-4 bg-transparent rounded-xl w-full">
+        <div className="p-4 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm rounded-xl shadow-md w-full">
             <Line data={data} options={options} />
         </div>
     );

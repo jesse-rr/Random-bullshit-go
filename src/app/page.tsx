@@ -10,7 +10,7 @@ import { DraggableContainer } from "./components/DraggableContainer";
 import { useWeather } from "./hooks/weatherHook";
 
 import { Button } from "@/components/ui/button";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Move, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { ForecastImageChanger } from "./utils/forecastImageChanger";
@@ -59,6 +59,7 @@ export default function Home() {
         }}
         className="min-h-screen flex bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
           
+          {/* Fixed Controls */}
           <div className="fixed top-4 left-4 z-40 flex gap-2">
             <Button
               id="btn-mode"
@@ -66,26 +67,41 @@ export default function Home() {
               onClick={handMode}
             >
               {selectedMode === "dark" ? (
-                <span className="flex flex-row items-center gap-3">
-                  <Sun className="dark:text-white text-veryDarkBlueText" />
-                  Light Mode
+                <span className="flex flex-row items-center gap-2">
+                  <Sun className="dark:text-white text-veryDarkBlueText w-4 h-4" />
+                  Light
                 </span>
               ) : (
-                <span id="sunIcon" className="flex flex-row items-center gap-3">
-                  <Moon className="dark:text-white text-veryDarkBlueText" />
-                  Dark Mode
+                <span id="sunIcon" className="flex flex-row items-center gap-2">
+                  <Moon className="dark:text-white text-veryDarkBlueText w-4 h-4" />
+                  Dark
                 </span>
               )}
             </Button>
             
             <Button
               onClick={toggleFloatingPanel}
-              className="bg-blue-500/90 hover:bg-blue-600 text-white backdrop-blur-sm"
+              className={`backdrop-blur-sm transition-all duration-200 ${
+                showFloatingPanel 
+                  ? 'bg-red-500/90 hover:bg-red-600 text-white' 
+                  : 'bg-blue-500/90 hover:bg-blue-600 text-white'
+              }`}
             >
-              {showFloatingPanel ? 'Hide Panel' : 'Show Floating Panel'}
+              {showFloatingPanel ? (
+                <span className="flex items-center gap-2">
+                  <X className="w-4 h-4" />
+                  Fechar Painel
+                </span>
+              ) : (
+                <span className="flex items-center gap-2">
+                  <Move className="w-4 h-4" />
+                  Painel Flutuante
+                </span>
+              )}
             </Button>
           </div>
 
+        {/* Main Content */}
         <div className="flex flex-col items-center justify-start flex-grow p-6 pt-20">
             <SearchComponent
                 onSearch={searchCity}
@@ -112,8 +128,9 @@ export default function Home() {
             />
         </div>
         
+        {/* Static Side Panel (when floating panel is hidden) */}
         {!showFloatingPanel && (
-          <div className="flex flex-col items-center justify-start flex-shrink-0 p-6 w-full md:w-1/3 lg:w-1/4">
+          <div className="flex flex-col items-center justify-start flex-shrink-0 p-6 w-full md:w-1/3 lg:w-1/4" id="dragme">
               <DailyForecastComponent
                   forecast={weatherData?.dailyForecast || []}
                   loading={loading}
@@ -128,12 +145,17 @@ export default function Home() {
         )}
       </div>
 
+      {/* Floating Draggable Panel */}
       {showFloatingPanel && (
         <DraggableContainer 
-          initialPosition={{ x: window.innerWidth - 400, y: 100 }}
-          className="w-80"
+          initialPosition={{ 
+            x: typeof window !== 'undefined' ? Math.max(50, window.innerWidth - 450) : 50, 
+            y: 100 
+          }}
+          title="Previsão do Tempo"
+          className="w-96"
         >
-          <div className="space-y-4">
+          <div className="space-y-6">
             <DailyForecastComponent
                 forecast={weatherData?.dailyForecast || []}
                 loading={loading}
